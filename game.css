@@ -54,8 +54,8 @@ body {
 
 .bio-creature {
     cursor: grab;
-    touch-action: none; /* Предотвращает прокрутку страницы на мобильных при перетаскивании */
-    user-select: none;  /* Чтобы текст при перетаскивании не выделялся */
+    touch-action: none;
+    user-select: none;
 }
 
 .volvox-eye {
@@ -65,10 +65,9 @@ body {
     position: fixed; 
     top: 0;
     left: 0;
-    pointer-events: none; /* Важно: чтобы не перекрывать клики */
+    pointer-events: none;
     z-index: 9999;
     will-change: transform;
-    /* Убираем transition, так как мы будем управлять плавностью через JS */
 }
 
 .creature-cyan { filter: drop-shadow(0 0 25px rgba(14, 165, 233, 0.8)); }

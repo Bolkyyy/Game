@@ -28,11 +28,9 @@ let activeCell = null;
 let team1Name = "Штамм Альфа";
 let team2Name = "Штамм Бета";
 
-// Переменные для слежения за мышью
 let mouseX = 0, mouseY = 0;
 let currentX = 0, currentY = 0;
 
-// Анимация микроба
 document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX - 70;
     mouseY = e.clientY - 70;
@@ -51,7 +49,6 @@ function animateFollower() {
 }
 animateFollower();
 
-// Управление меню
 const mainMenu = document.getElementById('mainMenu'), gameScreen = document.getElementById('gameScreen');
 const menuHome = document.getElementById('menuHome'), menuRules = document.getElementById('menuRules'), 
       menuSetup = document.getElementById('menuSetup'), menuAuthors = document.getElementById('menuAuthors');
@@ -117,8 +114,6 @@ function syncVisuals() {
         if (grid[r][c] === 2) cell.classList.add('team2');
         if (r === head1.r && c === head1.c) cell.classList.add('team1-head');
         if (r === head2.r && c === head2.c) cell.classList.add('team2-head');
-
-        // Логика допустимых ходов (соседи + пустая клетка)
         if (grid[r][c] === 0 && Math.abs(r - activeHead.r) <= 1 && Math.abs(c - activeHead.c) <= 1) {
             cell.classList.add('valid-move');
             canMove = true;
