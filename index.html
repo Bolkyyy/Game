@@ -6,6 +6,8 @@
     <title>Био-Экспансия: Битва Умов</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="game.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -54,37 +56,45 @@
 
             <div id="menuRules" class="menu-screen hidden">
                 <div class="rules-container">
-                    <h3 class="rules-title">Кодекс Экосистемы</h3>
+                    <h3 class="rules-title">Правила</h3>
                     <div class="rules-grid">
                         <div class="rule-card">
-                            <div class="rule-icon">👥</div>
-                            <p>Популяция состоит минимум из 2 видов (игроков).</p>
+                            <div class="rule-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
+                            <p>Игра состоит из 2 игроков.</p>
                         </div>
                         <div class="rule-card">
-                            <div class="rule-icon">🧬</div>
-                            <p>Один квант времени — одна мутация (один ход).</p>
+                            <div class="rule-icon"><i class="fas fa-hand-o-right" aria-hidden="true"></i></div>
+                            <p>За один ход игрок может походить только один раз</p>
                         </div>
                         <div class="rule-card">
-                            <div class="rule-icon">↗️</div>
-                            <p>Экспансия возможна только на соседние клетки в любом направлении.</p>
+                            <div class="rule-icon"><i class="fa fa-arrows" aria-hidden="true"></i></div>
+                            <p>Игрок может ходить только на соседние клеточки в любом направлении.</p>
                         </div>
                         <div class="rule-card">
-                            <div class="rule-icon">🚫</div>
-                            <p>Запрещено повторно пересекать пройденную или занятую биомассу.</p>
+                            <div class="rule-icon"><i class="fa fa-ban" aria-hidden="true"></i></div>
+                            <p>Запрещено повторно пересекать пройденную клетку.</p>
                         </div>
                         <div class="rule-card">
-                            <div class="rule-icon">🔒</div>
-                            <p>При полной блокировке путей вид прекращает развитие.</p>
+                            <div class="rule-icon"><i class="fa fa-user-times" aria-hidden="true"></i></div>
+                            <p>Запрещено пересекать клетки соперника.</p>
                         </div>
                         <div class="rule-card">
-                            <div class="rule-icon">🏆</div>
-                            <p>В изоляции игра идет до минимального отрыва в 2 поглощенные клетки.</p>
+                            <div class="rule-icon"><i class="fa fa-lock" aria-hidden="true"></i></div>
+                            <p>В случае если игрок оказывается заблокирован он заканчивает игру.</p>
+                        </div>
+                        <div class="rule-card">
+                            <div class="rule-icon"><i class="fa fa-times-circle" aria-hidden="true"></i></div>
+                            <p>При неправильном ответе на вопрос клетка переходит игроку – сопернику. </p>
+                        </div>
+                        <div class="rule-card">
+                            <div class="rule-icon"><i class="fa fa-mobile fa-times" aria-hidden="true"></i></div>
+                            <p>Во время игры запрещено пользоваться телефоном для поиска ответов на вопросы.</p>
                         </div>
                     </div>
                     <br><br>
                     <h1 class="rules-title">Легенда</h1>
                     <div class="rule-card">
-                        <p style="text-align: center;" class="legend">Родилась легенда в давнюю пору, когда на Русь напали враги, злые татары, и земля не просыхала от горьких слез матерей, вдов и сирот. Пришла к татарскому хану Батыю женщина Авдотья. Упала перед ним на колени: "Позволь откупить брата милого". Он, удивившись, сорвал первый попавшийся цветок и сказал: “Иди по моей Орде, и доколе цветок не увянет”. Но женщина волшебную силу скромному цветку придала. Долго бродила Авдотья по Орде, и многих русичей она спасла. Жил заветный цветок и еще красивее стал! С той поры и назвали его бессмертник. Правда это, или не, но этот цветок радует взгляд в наших степях и поныне, пестрея в коврах Донской природах вытканных.</p>
+                        <p style="text-align: center;" class="legend">Родилась легенда в давнюю пору, когда на Русь напали враги, злые татары, и земля не просыхала от горьких слез матерей, вдов и сирот. Пришла к татарскому хану Батыю женщина Авдотья. Упала перед ним на колени: «Позволь откупить брата милого». Он, удивившись, сорвал первый попавшийся цветок и сказал: «Иди по моей Орде, и доколе цветок не увянет». Но женщина волшебную силу скромному цветку придала. Долго бродила Авдотья по Орде, и многих русичей она спасла. Жил заветный цветок и еще красивее стал! С той поры и назвали его бессмертником. Правда это или нет, но этот цветок радует взгляд в наших степях и поныне, пестрея в коврах, Донской природой вытканных.</p>
                     </div>
                 </div>
                 <button class="back-btn">Назад в меню</button>
@@ -93,28 +103,28 @@
             <div id="menuSetup" class="menu-screen hidden">
                 <div class="team-setup">
                     <div class="input-group">
-                        <label for="team1Input" style="color: var(--cyan-glow)">Штамм Альфа</label>
-                        <input type="text" id="team1Input" value="Штамм Альфа">
+                        <label for="team1Input" style="color: var(--cyan-glow)">Команда 1</label>
+                        <input type="text" id="team1Input" value="Команда 1">
                     </div>
                     <div class="input-group">
-                        <label for="team2Input" style="color: var(--emerald-glow)">Штамм Бета</label>
-                        <input type="text" id="team2Input" value="Штамм Бета">
+                        <label for="team2Input" style="color: var(--emerald-glow)">Команда 2</label>
+                        <input type="text" id="team2Input" value="Команда 2">
                     </div>
                 </div>
-                <button id="startGameBtn" class="start-btn" style="margin-top: 0.5rem;">Запустить Синтез</button>
+                <button id="startGameBtn" class="start-btn" style="margin-top: 0.5rem;">Запустить игру</button>
                 <button class="back-btn">Назад в меню</button>
             </div>
 
             <div id="menuAuthors" class="menu-screen hidden">
                 <div class="rules-container" style="text-align: center; display: flex; flex-direction: column; gap: 1.25rem; background: rgba(0,0,0,0.2);">
-                    <h3 class="rules-title" style="margin-bottom: 0.25rem;">Лабораторный контроль</h3>
+                    <h3 class="rules-title" style="margin-bottom: 0.25rem;">Авторы</h3>
                     <div>
-                        <p style="color: var(--text-light); font-size: 1rem; font-weight: 600;">Имя Фамилия</p>
-                        <p style="color: var(--text-dim); font-size: 0.8rem;">Главный исследователь биомассы</p>
+                        <p style="color: var(--text-light); font-size: 1rem; font-weight: 600;">ФИО</p>
+                        <p style="color: var(--text-dim); font-size: 0.8rem;">Студент ЮСА-106</p>
                     </div>
                     <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
-                        <p style="color: var(--text-light); font-size: 1rem; font-weight: 600;">Имя Фамилия</p>
-                        <p style="color: var(--text-dim); font-size: 0.8rem;">Инженер генетических алгоритмов</p>
+                        <p style="color: var(--text-light); font-size: 1rem; font-weight: 600;">ФИО</p>
+                        <p style="color: var(--text-dim); font-size: 0.8rem;">Студентка ЮСА-106</p>
                     </div>
                 </div>
                 <button class="back-btn">Назад в меню</button>

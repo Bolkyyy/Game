@@ -52,6 +52,12 @@ body {
     will-change: transform, top, left;
 }
 
+.bio-creature {
+    cursor: grab;
+    touch-action: none; /* Предотвращает прокрутку страницы на мобильных при перетаскивании */
+    user-select: none;  /* Чтобы текст при перетаскивании не выделялся */
+}
+
 .volvox-eye {
     width: 140px;
     height: 140px;
