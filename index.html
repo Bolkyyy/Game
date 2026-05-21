@@ -84,7 +84,7 @@
                         </div>
                         <div class="rule-card">
                             <div class="rule-icon"><i class="fa fa-times-circle" aria-hidden="true"></i></div>
-                            <p>При неправильном ответе на вопрос клетка переходит игроку – сопернику. </p>
+                            <p>При неправильном ответе на вопрос, ход переходит игроку – сопернику. </p>
                         </div>
                         <div class="rule-card">
                             <div class="rule-icon"><i class="fa fa-mobile fa-times" aria-hidden="true"></i></div>
@@ -163,7 +163,16 @@
             <div class="options-list" id="optionsContainer"></div>
         </div>
     </div>
-
+    <div class="modal-overlay" id="gameOverModal">
+        <div class="modal-box glass-panel">
+            <h2 id="winnerTitle">Игра окончена</h2>
+            <p id="winnerText" style="margin: 20px 0; font-size: 1.2rem;"></p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="option-btn" onclick="returnToMenu()">На главное меню</button>
+                <button class="option-btn" onclick="restartGame()">Сыграть еще</button>
+            </div>
+        </div>
+    </div>
     <script src="game.js"></script>
 </body>
 </html>

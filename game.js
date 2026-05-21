@@ -96,7 +96,7 @@ let head2 = { r: boardSize - 1, c: boardSize - 1 };
 let currentTeam = 1;
 let scores = { 1: 1, 2: 1 };
 let activeCell = null;
-let activeQuestionData = null;
+let activeQuestionData = null; 
 let team1Name = "Штамм Альфа";
 let team2Name = "Штамм Бета";
 
@@ -177,7 +177,7 @@ function buildBoard() {
 function syncVisuals() {
     document.body.setAttribute('data-current', currentTeam);
     const cells = document.querySelectorAll('.cell');
-    let canMove = false;
+    
     const activeHead = currentTeam === 1 ? head1 : head2;
 
     cells.forEach(cell => {
@@ -189,17 +189,121 @@ function syncVisuals() {
         if (r === head2.r && c === head2.c) cell.classList.add('team2-head');
         if (grid[r][c] === 0 && Math.abs(r - activeHead.r) <= 1 && Math.abs(c - activeHead.c) <= 1) {
             cell.classList.add('valid-move');
-            canMove = true;
         }
     });
 
     document.getElementById('turnIndicator').innerText = `Ход: ${currentTeam === 1 ? team1Name : team2Name}`;
-    if (!canMove) checkGameOver(true);
+    
+    checkGameOverStates(); 
+}
+
+function hasValidMoves(teamNum) {
+    const head = teamNum === 1 ? head1 : head2;
+    for (let r = 0; r < boardSize; r++) {
+        for (let c = 0; c < boardSize; c++) {
+            if (grid[r][c] === 0 && Math.abs(r - head.r) <= 1 && Math.abs(c - head.c) <= 1) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function checkGameOverStates() {
+    const canMove1 = hasValidMoves(1);
+    const canMove2 = hasValidMoves(2);
+
+    // Если текущая команда не может ходить — пропускаем её ход
+    if (currentTeam === 1 && !canMove1 && canMove2) {
+        document.getElementById('turnIndicator').innerText = `${team1Name} заблокирован! Ход ${team2Name}`;
+        currentTeam = 2;
+        document.body.setAttribute('data-current', currentTeam);
+        updateCellHighlights();
+        return;
+    }
+    if (currentTeam === 2 && !canMove2 && canMove1) {
+        document.getElementById('turnIndicator').innerText = `${team2Name} заблокирован! Ход ${team1Name}`;
+        currentTeam = 1;
+        document.body.setAttribute('data-current', currentTeam);
+        updateCellHighlights();
+        return;
+    }
+
+    // Оба не могут ходить — игра окончена
+    if (!canMove1 && !canMove2) {
+        const modal = document.getElementById('gameOverModal');
+        const title = document.getElementById('winnerTitle');
+        const text = document.getElementById('winnerText');
+
+        if (scores[1] === scores[2]) {
+            title.innerText = "Ничья!";
+            text.style.whiteSpace = 'pre-line';
+            text.innerText = `Оба вида заняли по ${scores[1]} клеток — силы равны!`;
+        } else {
+            const winner = scores[1] > scores[2] ? team1Name : team2Name;
+            const loser = scores[1] > scores[2] ? team2Name : team1Name;
+            const winScore = scores[1] > scores[2] ? scores[1] : scores[2];
+            const loseScore = scores[1] > scores[2] ? scores[2] : scores[1];
+            title.innerText = "Игра окончена!";
+            text.style.whiteSpace = 'pre-line';
+            text.innerText = `Победил: ${winner}\n${winScore} : ${loseScore} против ${loser}`;
+        }
+
+        modal.classList.add('active');
+        return;
+    }
+
+    // Один заблокирован полностью (а другой тоже) — победа по клеткам
+    if (!canMove1 || !canMove2) {
+        const blockedTeam = !canMove1 ? 1 : 2;
+        const activeTeam = blockedTeam === 1 ? 2 : 1;
+        const winnerName = activeTeam === 1 ? team1Name : team2Name;
+        const loserName = blockedTeam === 1 ? team1Name : team2Name;
+
+        const modal = document.getElementById('gameOverModal');
+        const title = document.getElementById('winnerTitle');
+        const text = document.getElementById('winnerText');
+
+        title.innerText = "Игра окончена!";
+        text.style.whiteSpace = 'pre-line';
+        text.innerText = `${loserName} заблокирован!\nПобеждает ${winnerName}!\n${scores[1]} : ${scores[2]}`;
+
+        modal.classList.add('active');
+    }
+}
+
+function updateCellHighlights() {
+    const activeHead = currentTeam === 1 ? head1 : head2;
+    document.querySelectorAll('.cell').forEach(cell => {
+        const r = parseInt(cell.dataset.r), c = parseInt(cell.dataset.c);
+        cell.classList.remove('valid-move');
+        if (grid[r][c] === 0 && Math.abs(r - activeHead.r) <= 1 && Math.abs(c - activeHead.c) <= 1) {
+            cell.classList.add('valid-move');
+        }
+    });
+}
+
+function restartGame() {
+    document.getElementById('gameOverModal').classList.remove('active');
+    initGame();
+}
+
+function returnToMenu() {
+    document.getElementById('gameOverModal').classList.remove('active');
+    document.getElementById('gameScreen').classList.add('hidden');
+    document.getElementById('mainMenu').classList.remove('hidden');
+}
+
+function disableBoard() {
+    document.querySelectorAll('.cell').forEach(c => {
+        c.classList.remove('valid-move');
+    });
 }
 
 function onCellClick(r, c) {
     const activeHead = currentTeam === 1 ? head1 : head2;
     if (grid[r][c] !== 0 || Math.abs(r - activeHead.r) > 1 || Math.abs(c - activeHead.c) > 1) return;
+    
     activeCell = { r, c };
     
     if (!activeQuestionData) {
@@ -216,25 +320,24 @@ function onCellClick(r, c) {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.innerText = opt;
-        btn.onclick = () => evaluate(i === activeQuestionData.correct, i);
+        btn.onclick = () => evaluate(i === activeQuestionData.correct);
         cont.appendChild(btn);
     });
     
     document.getElementById('modal').classList.add('active');
 }
 
-function evaluate(correct, btnIndex) {
+function evaluate(correct) {
+    document.getElementById('modal').classList.remove('active');
+
     if (!correct) {
-        const btns = document.querySelectorAll('.option-btn');
-        btns[btnIndex].style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
-        btns[btnIndex].style.borderColor = 'rgba(239, 68, 68, 0.5)';
-        btns[btnIndex].style.color = '#fca5a5';
-        btns[btnIndex].disabled = true;
+        currentTeam = currentTeam === 1 ? 2 : 1;
+        activeCell = null;
+        activeQuestionData = null; 
+        syncVisuals();
         return; 
     }
 
-    document.getElementById('modal').classList.remove('active');
-    
     if (correct && activeCell) {
         grid[activeCell.r][activeCell.c] = currentTeam;
         if (currentTeam === 1) { 
@@ -251,11 +354,5 @@ function evaluate(correct, btnIndex) {
     }
     
     activeCell = null;
-    activeQuestionData = null;й
-}
-
-function checkGameOver(isBlocked) {
-    if (isBlocked || Math.abs(scores[1] - scores[2]) >= 2) {
-        document.getElementById('turnIndicator').innerText = `Игра окончена: ${scores[1] > scores[2] ? team1Name : team2Name} доминирует`;
-    }
+    activeQuestionData = null; 
 }
