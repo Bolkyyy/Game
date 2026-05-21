@@ -135,6 +135,12 @@ document.getElementById('openRulesBtn').onclick = () => switchScreen(menuRules);
 document.getElementById('openAuthorsBtn').onclick = () => switchScreen(menuAuthors);
 document.querySelectorAll('.back-btn').forEach(btn => btn.onclick = () => switchScreen(menuHome));
 
+document.getElementById('exitToMenuBtn').onclick = () => {
+    if (confirm('Вернуться в главное меню? Текущая игра будет потеряна.')) {
+        returnToMenu();
+    }
+};
+
 document.getElementById('startGameBtn').onclick = () => {
     team1Name = document.getElementById('team1Input').value || "Штамм Альфа";
     team2Name = document.getElementById('team2Input').value || "Штамм Бета";
@@ -213,7 +219,6 @@ function checkGameOverStates() {
     const canMove1 = hasValidMoves(1);
     const canMove2 = hasValidMoves(2);
 
-    // Если текущая команда не может ходить — пропускаем её ход
     if (currentTeam === 1 && !canMove1 && canMove2) {
         document.getElementById('turnIndicator').innerText = `${team1Name} заблокирован! Ход ${team2Name}`;
         currentTeam = 2;
@@ -229,7 +234,6 @@ function checkGameOverStates() {
         return;
     }
 
-    // Оба не могут ходить — игра окончена
     if (!canMove1 && !canMove2) {
         const modal = document.getElementById('gameOverModal');
         const title = document.getElementById('winnerTitle');
@@ -253,7 +257,6 @@ function checkGameOverStates() {
         return;
     }
 
-    // Один заблокирован полностью (а другой тоже) — победа по клеткам
     if (!canMove1 || !canMove2) {
         const blockedTeam = !canMove1 ? 1 : 2;
         const activeTeam = blockedTeam === 1 ? 2 : 1;
@@ -355,4 +358,25 @@ function evaluate(correct) {
     
     activeCell = null;
     activeQuestionData = null; 
+}
+
+function updateBoardScale() {
+    const board = document.getElementById('board');
+    if (!board) return;
+
+    const viewport = window.innerWidth;
+
+    if (viewport <= 420) {
+        board.style.gridTemplateColumns = 'repeat(10, minmax(0, 1fr))';
+    } else {
+        board.style.gridTemplateColumns = 'repeat(10, 1fr)';
+    }
+}
+
+window.addEventListener('resize', updateBoardScale);
+window.addEventListener('orientationchange', updateBoardScale);
+window.addEventListener('load', updateBoardScale);
+
+if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.body.classList.add('touch-device');
 }

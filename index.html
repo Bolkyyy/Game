@@ -52,6 +52,10 @@
                     <button id="openRulesBtn" class="menu-btn">Информация</button>
                     <button id="openAuthorsBtn" class="menu-btn">Авторы</button>
                 </div>
+                <div class="info-tip">
+                    <div class="info-tip-icon"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></div>
+                    <p class="info-tip-text">Рекомендуем ознакомиться с разделом <strong>«Информация»</strong> перед началом игры — там вы найдёте правила и легенду, на которой основаны вопросы.</p>
+                </div>
             </div>
 
             <div id="menuRules" class="menu-screen hidden">
@@ -141,8 +145,9 @@
                 <span class="score" id="score1">0</span>
             </div>
 
-            <div class="turn-badge" id="turnIndicator">
-                Анализ среды...
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <div class="turn-badge" id="turnIndicator">Анализ среды...</div>
+                <button class="exit-to-menu-btn" id="exitToMenuBtn">&#8592; В меню</button>
             </div>
 
             <div class="team-panel align-right">
@@ -174,5 +179,10 @@
         </div>
     </div>
     <script src="game.js"></script>
+    <script>
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+    </script>
 </body>
 </html>
