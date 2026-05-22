@@ -45,7 +45,7 @@
                             <div class="rules-grid">
                                 <div class="rule-card">
                                     <div class="rule-icon"><i class="fa-solid fa-users"></i></div>
-                                    <p>Игра состоит из 2 игроков.</p>
+                                    <p>Игра состоит из 2 и более игроков.</p>
                                 </div>
                                 <div class="rule-card">
                                     <div class="rule-icon"><i class="fa-regular fa-hand-point-right"></i></div>
@@ -74,6 +74,10 @@
                                 <div class="rule-card">
                                     <div class="rule-icon"><i class="fa-solid fa-mobile-screen"></i></div>
                                     <p>Во время игры запрещено пользоваться телефоном.</p>
+                                </div>
+                                <div class="rule-card">
+                                    <div class="rule-icon"><i class="fa-regular fa-clock"></i></div>
+                                    <p>На ответ даётся <strong class="text-cyan-glow">30 секунд</strong>. Если время истекло — ход переходит сопернику.</p>
                                 </div>
                             </div>
                         </div>
@@ -125,8 +129,8 @@
                         </div>
                         <!-- <div class="author-card">
                             <i class="fa-solid fa-laptop-code author-icon"></i>
-                            <p class="author-name">Алексей Смирнов</p>
-                            <p class="author-role">Разработчик / Студент</p>
+                            <p class="author-name">Bolky</p>
+                            <p class="author-role">Разработчик</p>
                         </div> -->
                     </div>
                 </div>
@@ -162,8 +166,9 @@
         </main>
     </div>
 
-    <div class="modal-overlay" id="modal">
+   <div class="modal-overlay" id="modal">
         <div class="modal-box glass-panel">
+            <div class="timer-circle" id="questionTimer">30</div>
             <h2 class="question-title" id="questionText">Генетический маркер...</h2>
             <div class="options-list" id="optionsContainer"></div>
         </div>

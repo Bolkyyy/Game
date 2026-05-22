@@ -1,3 +1,5 @@
+let questionTimerInterval = null;
+let timeLeft = 30;
 let questionsDb = [
   // ----- Казачьи говоры (20 вопросов) -----
   { q: "Что имеет в виду казак, когда использует слово «баз»?", options: ["Погреб для хранения продуктов", "Огороженный двор для скота", "Головной убор казачки", "Шумное праздничное застолье"], correct: 1 },
@@ -109,6 +111,40 @@ let questionsDb = [
   { q: "Почему интродукция (завоз) чужеродных видов (например, ротана) опасна для коренных обитателей Дона?", options: ["Вытесняют местные виды, поедая икру", "Слишком красивы", "Очищают воду", "Не умеют плавать в пресной воде"], correct: 0 },
   { q: "Какое простое действие каждого человека во время отдыха на природе Дона помогает сохранить экосистему?", options: ["Сбор больших букетов", "Уборка мусора и отказ от костров", "Громкая музыка", "Выкапывание диких растений"], correct: 1 }
 ];
+
+function startTimer() {
+    stopTimer();
+    timeLeft = 30;
+    const timerElement = document.getElementById("questionTimer");
+    if (timerElement) {
+        timerElement.innerText = timeLeft;
+        timerElement.classList.remove("team1", "team2");
+        if (currentTeam === 1) {
+            timerElement.classList.add("team1");
+        } else {
+            timerElement.classList.add("team2");
+        }
+    }
+    
+    questionTimerInterval = setInterval(() => {
+        if (timeLeft <= 1) {
+            stopTimer();
+            document.getElementById("modal").classList.remove("active");
+            evaluate(false);
+        } else {
+            timeLeft--;
+            const timerElement = document.getElementById("questionTimer");
+            if (timerElement) timerElement.innerText = timeLeft;
+        }
+    }, 1000);
+}
+
+function stopTimer() {
+    if (questionTimerInterval) {
+        clearInterval(questionTimerInterval);
+        questionTimerInterval = null;
+    }
+}
 
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -276,51 +312,56 @@ function checkGameOverStates() {
 }
 
 function onCellClick(r, c) {
-  const activeHead = currentTeam === 1 ? head1 : head2;
-  if (grid[r][c] !== 0 || Math.abs(r - activeHead.r) > 1 || Math.abs(c - activeHead.c) > 1) return;
+    const activeHead = currentTeam === 1 ? head1 : head2;
+    if (grid[r][c] !== 0 || Math.abs(r - activeHead.r) > 1 || Math.abs(c - activeHead.c) > 1) return;
 
-  activeCell = { r, c };
+    activeCell = { r, c };
 
-  if (questions.length === 0) {
-    questions = [...questionsDb];
-  }
-  const idx = Math.floor(Math.random() * questions.length);
-  const originalQuestion = questions.splice(idx, 1)[0];
-  activeQuestionData = prepareQuestion(originalQuestion);
+    if (questions.length === 0) {
+        questions = [...questionsDb];
+    }
+    const idx = Math.floor(Math.random() * questions.length);
+    const originalQuestion = questions.splice(idx, 1)[0];
+    activeQuestionData = prepareQuestion(originalQuestion);
 
-  document.getElementById("questionText").innerText = activeQuestionData.q;
-  const cont = document.getElementById("optionsContainer");
-  cont.innerHTML = "";
+    document.getElementById("questionText").innerText = activeQuestionData.q;
+    const cont = document.getElementById("optionsContainer");
+    cont.innerHTML = "";
 
-  activeQuestionData.options.forEach((opt, i) => {
-    const btn = document.createElement("button");
-    btn.className = "option-btn";
-    btn.innerText = opt;
-    btn.onclick = () => evaluate(i === activeQuestionData.correct);
-    cont.appendChild(btn);
-  });
+    activeQuestionData.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = opt;
+        btn.onclick = () => {
+            stopTimer();
+            evaluate(i === activeQuestionData.correct);
+        };
+        cont.appendChild(btn);
+    });
 
-  document.getElementById("modal").classList.add("active");
+    document.getElementById("modal").classList.add("active");
+    startTimer();
 }
 
 function evaluate(correct) {
-  document.getElementById("modal").classList.remove("active");
+    stopTimer();
+    document.getElementById("modal").classList.remove("active");
 
-  if (correct && activeCell) {
-    grid[activeCell.r][activeCell.c] = currentTeam;
-    if (currentTeam === 1) {
-      head1 = activeCell; scores[1]++;
-      document.getElementById("score1").innerText = scores[1];
-    } else {
-      head2 = activeCell; scores[2]++;
-      document.getElementById("score2").innerText = scores[2];
+    if (correct && activeCell) {
+        grid[activeCell.r][activeCell.c] = currentTeam;
+        if (currentTeam === 1) {
+            head1 = activeCell; scores[1]++;
+            document.getElementById("score1").innerText = scores[1];
+        } else {
+            head2 = activeCell; scores[2]++;
+            document.getElementById("score2").innerText = scores[2];
+        }
     }
-  }
 
-  currentTeam = currentTeam === 1 ? 2 : 1;
-  activeCell = null;
-  activeQuestionData = null;
-  syncVisuals();
+    currentTeam = currentTeam === 1 ? 2 : 1;
+    activeCell = null;
+    activeQuestionData = null;
+    syncVisuals();
 }
 
 function returnToMenu() {
