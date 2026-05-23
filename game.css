@@ -59,7 +59,14 @@ body {
 .menu-content { padding: 3.5rem 3rem; border-radius: 24px; display: flex; flex-direction: column; gap: 2.5rem; }
 
 .game-title {
-    font-size: 2.5rem; font-weight: 800; text-align: center; text-transform: uppercase;
+    font-size: 2rem; font-weight: 800; text-align: center; text-transform: uppercase;
+    line-height: 2.5rem;
+    letter-spacing: 6px; background: linear-gradient(135deg, #e0f2fe, #ccfbf1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+.game-title-2 {
+    font-size: 1.5rem; font-weight: 800; text-align: center; text-transform: uppercase;
     letter-spacing: 6px; background: linear-gradient(135deg, #e0f2fe, #ccfbf1);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
 }
@@ -329,7 +336,7 @@ body[data-current="1"] .cell.valid-move:hover { background: rgba(14, 165, 233, 0
 .rules-container::-webkit-scrollbar-thumb,
 .legend-simple::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
+    game-titleborder-radius: 10px;
 }
 
 .rules-container::-webkit-scrollbar-thumb:hover,
@@ -359,7 +366,8 @@ body[data-current="1"] .cell.valid-move:hover { background: rgba(14, 165, 233, 0
 
 @media (max-width: 768px) {
     html { font-size: 15px; }
-    .game-title { font-size: 2rem; letter-spacing: 3px; }
+    .game-title { font-size: 1.5rem; letter-spacing: 3px; }
+    .game-title-2 { font-size: 1rem; letter-spacing: 3px; }
     .team-setup { grid-template-columns: 1fr; }
     .board-container { width: 100%; padding: 10px; overflow: hidden; }
 }
